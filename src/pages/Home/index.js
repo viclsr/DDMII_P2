@@ -9,7 +9,7 @@ import {
 import CardComponent from '../../../components/CardComponent';
 import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = () => {
+const Home  = ({ favoriteItems, setFavoriteItems }) => {
   const navigation = useNavigation();
 
   const goToRecipe = (recipe) => {
@@ -40,7 +40,7 @@ const HomeScreen = () => {
     <ScrollView contentContainerStyle={[styles.container, styles.scrollView]}>
       {recipes.map((recipe, index) => (
         <TouchableOpacity key={index} onPress={() => goToRecipe(recipe)}>
-          <CardComponent recipe={recipe} />
+          <CardComponent recipe={recipe} setFavoriteItems={setFavoriteItems} />
         </TouchableOpacity>
       ))}
     </ScrollView>
@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#fff',
-       marginTop: 350,
+       marginTop: 390,
   },
   scrollView: {
     paddingTop: 50,
   },
 });
 
-export default HomeScreen;
+export default Home;

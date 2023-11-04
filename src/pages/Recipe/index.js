@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import React from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 const Recipe = ({ route }) => {
   const { recipe } = route.params;
@@ -18,19 +18,19 @@ const Recipe = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   recipeImage: {
-    width: "100%",
+    width: '100%',
     height: 200,
-    resizeMode: "cover",
+    resizeMode: 'cover',
   },
   textContainer: {
     padding: 20,
   },
   recipeName: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   prepTime: {
     marginTop: 8,
