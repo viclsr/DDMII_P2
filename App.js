@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import Home from './src/pages/Home';
@@ -9,7 +8,6 @@ import Recipe from './src/pages/Recipe';
 import Favorites from './src/pages/Favorites';
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
 const icons = {
   Home: {
@@ -31,8 +29,12 @@ function Tabs({ favoriteItems, setFavoriteItems }) {
           const { name } = icons[route.name];
           return <Icon name={name} color={color} size={size} />;
         },
-      })}>
-      <Tab.Screen name="Home" options={{ tabBarLabel: 'Receitas' }}>
+      })}
+    >
+      <Tab.Screen
+        name="Home"
+        options={{ tabBarLabel: 'Receitas' }}
+      >
         {() => (
           <Home
             favoriteItems={favoriteItems}
@@ -40,7 +42,20 @@ function Tabs({ favoriteItems, setFavoriteItems }) {
           />
         )}
       </Tab.Screen>
-      <Tab.Screen name="Favorites" options={{ tabBarLabel: 'Favoritos' }}>
+      <Tab.Screen
+        name="Recipe"
+        component={Recipe}
+        options={{
+          tabBarLabel: 'Receita',
+          tabBarButton: (props) => (
+            <></> 
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Favorites"
+        options={{ tabBarLabel: 'Favoritos' }}
+      >
         {() => (
           <Favorites
             favoriteItems={favoriteItems}
@@ -57,21 +72,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" options={{ headerShown: false }}>
-          {() => (
-            <Tabs
-              favoriteItems={favoriteItems}
-              setFavoriteItems={setFavoriteItems}
-            />
-          )}
-        </Stack.Screen>
-        <Stack.Screen
-          name="Recipe"
-          component={Recipe}
-          options={{ title: 'Receita' }}
-        />
-      </Stack.Navigator>
+      <Tabs favoriteItems={favoriteItems} setFavoriteItems={setFavoriteItems} />
     </NavigationContainer>
   );
 }
