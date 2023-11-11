@@ -40,7 +40,7 @@ const Home  = ({ favoriteItems, setFavoriteItems }) => {
     <ScrollView contentContainerStyle={[styles.container, styles.scrollView]}>
       {recipes.map((recipe, index) => (
         <TouchableOpacity key={index} onPress={() => goToRecipe(recipe)}>
-          <CardComponent recipe={recipe} setFavoriteItems={setFavoriteItems} />
+          <CardComponent recipe={recipe} setFavoriteItems={setFavoriteItems} isToggleShown={true} />
         </TouchableOpacity>
       ))}
     </ScrollView>
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#fff',
-       marginTop: 390,
   },
   scrollView: {
     paddingTop: 50,

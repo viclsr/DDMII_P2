@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const CardComponent = ({ recipe, setFavoriteItems }) => {
+const CardComponent = ({ recipe, setFavoriteItems, isToggleShown }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const toggleFavorite = () => {
+  const toggleFavorite = async () => {
     setIsFavorite(!isFavorite);
     setFavoriteItems((prevItems) => {
       return isFavorite
         ? prevItems.filter((item) => item.name !== recipe.name)
         : [...prevItems, recipe];
     });
+    await AsyncStorage.setItem('favoritos', favoriteItems);
   };
 
   return (
@@ -21,13 +23,17 @@ const CardComponent = ({ recipe, setFavoriteItems }) => {
         <Text style={styles.recipeName}>{recipe.name}</Text>
         <Text style={styles.prepTime}>{recipe.prepTime}</Text>
       </View>
-      <TouchableOpacity onPress={toggleFavorite} style={styles.favorite}>
+      {
+        isToggleShown ? 
+        <TouchableOpacity onPress={toggleFavorite} style={styles.favorite}>
         {isFavorite ? (
           <Icon name="ios-heart" size={30} color="red" />
         ) : (
           <Icon name="ios-heart-outline" size={30} color="white" />
         )}
-      </TouchableOpacity>
+      </TouchableOpacity> : null
+      }
+    
     </View>
   );
 };

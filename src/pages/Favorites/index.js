@@ -8,7 +8,7 @@ const Favorites = ({ favoriteItems = [], goToRecipe }) => {
       {favoriteItems && favoriteItems.length > 0 ? (
         favoriteItems.map((recipe, index) => (
           <TouchableOpacity key={index} onPress={() => goToRecipe(recipe)}>
-            <CardComponent recipe={recipe} />
+            <CardComponent recipe={recipe} isToggleShown={true}/>
           </TouchableOpacity>
         ))
       ) : (
