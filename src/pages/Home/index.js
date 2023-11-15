@@ -1,61 +1,86 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
 import {
-  View,
   StyleSheet,
   ScrollView,
-  Button,
   TouchableOpacity,
+  SafeAreaView
 } from 'react-native';
-import CardComponent from '../../../components/CardComponent';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
+import CardComponent from '../../components/CardComponent';
 import { useNavigation } from '@react-navigation/native';
 
-const Home  = ({ favoriteItems, setFavoriteItems }) => {
+import { api } from '../../services/api';
+
+const Home  = () => {
+  const [recipes, setRecipes] = useState([]);
+
+  const storeFavoriteRecipes = async (recipe) => {
+    try {
+      const storedRecipes = await AsyncStorage.getItem('@favorite_recipes');
+      let favoriteItems = storedRecipes ? JSON.parse(storedRecipes) : [];
+
+      // verificando se a receita está favoritada no Async Storage
+      const isRecipeFavorited = favoriteItems.some(
+        (item) => item.name === recipe.name
+      );
+
+      if (isRecipeFavorited) {
+        // Remove a receita se já estiver favoritada
+        favoriteItems = favoriteItems.filter(
+          (item) => item.name !== recipe.name
+        );
+      } else {
+        // Adiciona a receita se ainda não estiver favoritada
+        favoriteItems.push(recipe);
+      }
+
+      await AsyncStorage.setItem('@favorite_recipes', JSON.stringify(favoriteItems));
+    } catch (error) {
+      console.error('Erro ao favoritar receita:', error);
+    }
+  };
+
   const navigation = useNavigation();
 
   const goToRecipe = (recipe) => {
     navigation.navigate('Recipe', { recipe });
   };
 
-  const recipes = [
-    {
-      name: 'Bolo de fubá',
-      prepTime: '45 minutos',
-      image:
-        'https://www.sabornamesa.com.br/media/k2/items/cache/1b6069f7031f5df88e14909413a02435_XL.jpg',
-    },
-    {
-      name: 'Strogonoff de frango',
-      prepTime: '45 minutos',
-      image:
-        'https://www.receitasonline.com.br/wp-content/uploads/Strogonoff-de-frango-simples.jpg',
-    },
-    {
-      name: 'Bolinho de chuva',
-      prepTime: '1 hora',
-      image: 'https://cooknenjoy.com/wp-content/uploads/2019/05/P1180804.jpg',
-    },
-  ];
+  useEffect(() => {
+    async function getRecipes() {
+      const response = await api.get('/recipes');
+      setRecipes(response.data)
+    }
+
+    getRecipes()
+  }, []);
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, styles.scrollView]}>
-      {recipes.map((recipe, index) => (
-        <TouchableOpacity key={index} onPress={() => goToRecipe(recipe)}>
-          <CardComponent recipe={recipe} setFavoriteItems={setFavoriteItems} />
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={[styles.scrollView]}>
+        {recipes.map((recipe, index) => (
+          <TouchableOpacity key={index} onPress={() => goToRecipe(recipe)}>
+            <CardComponent
+              recipe={recipe}
+              storeFavoriteRecipes={() => storeFavoriteRecipes(recipe)}
+              isToggleShown={true}
+            />
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#fff',
-       marginTop: 390,
   },
   scrollView: {
-    paddingTop: 50,
+    paddingTop: 10,
   },
 });
 

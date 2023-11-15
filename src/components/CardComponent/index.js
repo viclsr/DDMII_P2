@@ -1,33 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const CardComponent = ({ recipe, setFavoriteItems }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+const CardComponent = ({ recipe, storeFavoriteRecipes, isToggleShown, isAlreadyFavorite }) => {
+  const isFocused = useIsFocused();
+  const [isFavorite, setIsFavorite] = useState(isAlreadyFavorite || false);
 
-  const toggleFavorite = () => {
+  const checkIsFavorite = async () => {
+    try {
+      const storedRecipes = await AsyncStorage.getItem('@favorite_recipes');
+      const favoriteItems = storedRecipes ? JSON.parse(storedRecipes) : [];
+      const isRecipeFavorited = favoriteItems.some((item) => item.name === recipe.name);
+
+      setIsFavorite(isRecipeFavorited);
+    } catch (error) {
+      console.error('Erro ao checar receitas favoritas:', error);
+    }
+  };
+
+  useEffect(() => {
+    checkIsFavorite();
+  }, [isFocused, recipe.name]);
+
+  const toggleFavorite = async () => {
     setIsFavorite(!isFavorite);
-    setFavoriteItems((prevItems) => {
-      return isFavorite
-        ? prevItems.filter((item) => item.name !== recipe.name)
-        : [...prevItems, recipe];
-    });
+    
+    storeFavoriteRecipes();
   };
 
   return (
     <View style={[styles.cardContainer, styles.shadowProp]}>
       <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
       <View style={styles.textContainer}>
-        <Text style={styles.recipeName}>{recipe.name}</Text>
+        <Text style={styles.recipeName}>{recipe.recipeName ?? recipe.name}</Text>
         <Text style={styles.prepTime}>{recipe.prepTime}</Text>
       </View>
-      <TouchableOpacity onPress={toggleFavorite} style={styles.favorite}>
+      {
+        isToggleShown ? 
+        <TouchableOpacity onPress={toggleFavorite} style={styles.favorite}>
         {isFavorite ? (
           <Icon name="ios-heart" size={30} color="red" />
         ) : (
           <Icon name="ios-heart-outline" size={30} color="white" />
         )}
-      </TouchableOpacity>
+      </TouchableOpacity> : null
+      }
+    
     </View>
   );
 };
