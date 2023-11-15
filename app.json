@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "projeto_p2",
-    "slug": "snack-e8f83a79-df26-4339-b4b4-e9996e18fa41",
+    "slug": "snack-76719213-6ad6-46b2-a4f1-510f64619939",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
