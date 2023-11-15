@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Icon from "react-native-vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Home from './src/pages/Home';
-import Recipe from './src/pages/Recipe';
-import Favorites from './src/pages/Favorites';
-import About from './src/pages/About';
-import Category from './src/pages/Category/index'
+import Home from "./src/pages/Home";
+import Recipe from "./src/pages/Recipe";
+import Favorites from "./src/pages/Favorites";
+import About from "./src/pages/About";
+import Category from "./src/pages/Category/index";
 
 const Tab = createBottomTabNavigator();
 
 const icons = {
   Home: {
-    name: 'ios-restaurant',
+    name: "ios-restaurant",
   },
   Recipe: {
-    name: 'ios-restaurant',
+    name: "ios-restaurant",
   },
   Favorites: {
-    name: 'ios-heart',
+    name: "ios-heart",
   },
   About: {
-    name: 'ios-people',
+    name: "ios-people",
   },
   Category: {
-    name: 'ios-folder',
-  }
+    name: "ios-folder",
+  },
 };
 
 function Tabs({ favoriteItems, setFavoriteItems }) {
@@ -40,44 +40,30 @@ function Tabs({ favoriteItems, setFavoriteItems }) {
         },
       })}
     >
-      <Tab.Screen
-        name="Home"
-        options={{ tabBarLabel: 'Receitas' }}
-      >
-        {() => (
-          <Home />
-        )}
+      <Tab.Screen name="Home" options={{ tabBarLabel: "Receitas" }}>
+        {() => <Home />}
       </Tab.Screen>
       <Tab.Screen
         name="Recipe"
         component={Recipe}
         options={{
-          tabBarLabel: 'Receita',
-          tabBarButton: (props) => (
-            <></> 
-          ),
+          tabBarLabel: "Receita",
+          tabBarButton: (props) => <></>,
         }}
       />
-      <Tab.Screen
-        name="Favorites"
-        options={{ tabBarLabel: 'Favoritos' }}
-      >
-        {() => (
-          <Favorites />
-        )}
+      <Tab.Screen name="Favorites" options={{ tabBarLabel: "Favoritos" }}>
+        {() => <Favorites />}
       </Tab.Screen>
       <Tab.Screen
         name="About"
-        options={{ tabBarLabel: 'Sobre' }}
+        options={{ tabBarLabel: "Sobre" }}
         component={About}
-      >
-      </Tab.Screen>
+      ></Tab.Screen>
       <Tab.Screen
         name="Category"
-        options={{ tabBarLabel: 'Categoria' }}
+        options={{ tabBarLabel: "Categoria" }}
         component={Category}
-      >
-      </Tab.Screen>
+      ></Tab.Screen>
     </Tab.Navigator>
   );
 }

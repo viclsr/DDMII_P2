@@ -5,6 +5,7 @@ import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const CardComponent = ({ recipe, storeFavoriteRecipes, isToggleShown, isAlreadyFavorite }) => {
   const isFocused = useIsFocused();
