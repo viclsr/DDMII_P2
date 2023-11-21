@@ -1,15 +1,14 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import Icon from "react-native-vector-icons/Ionicons";
 
 import Home from "./src/pages/Home";
 import Recipe from "./src/pages/Recipe";
 import Favorites from "./src/pages/Favorites";
 import About from "./src/pages/About";
-import Options from "./src/pages/Options/index";
 import Register from "./src/pages/Register/index";
-import Edit from "./src/pages/Edit/index";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,9 +28,12 @@ const icons = {
   Options: {
     name: "ios-folder",
   },
+  Register: {
+    name: "ios-pencil",
+  },
 };
 
-function Tabs({ favoriteItems, setFavoriteItems }) {
+function Tabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -61,24 +63,10 @@ function Tabs({ favoriteItems, setFavoriteItems }) {
         component={About}
       ></Tab.Screen>
       <Tab.Screen
-        name="Options"
-        options={{ tabBarLabel: "Minhas receitas" }}
-        component={Options}
-      ></Tab.Screen>
-      <Tab.Screen
         name="Register"
         component={Register}
         options={{
-          tabBarLabel: "Cadastrar Receita",
-          tabBarButton: (props) => <></>,
-        }}
-      />
-      <Tab.Screen
-        name="Edit"
-        component={Edit}
-        options={{
-          tabBarLabel: "Editar Receita",
-          tabBarButton: (props) => <></>,
+          tabBarLabel: "Criar Receita",
         }}
       />
     </Tab.Navigator>
