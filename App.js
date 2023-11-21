@@ -7,7 +7,9 @@ import Home from "./src/pages/Home";
 import Recipe from "./src/pages/Recipe";
 import Favorites from "./src/pages/Favorites";
 import About from "./src/pages/About";
-import Category from "./src/pages/Category/index";
+import Options from "./src/pages/Options/index";
+import Register from "./src/pages/Register/index";
+import Edit from "./src/pages/Edit/index";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +26,7 @@ const icons = {
   About: {
     name: "ios-people",
   },
-  Category: {
+  Options: {
     name: "ios-folder",
   },
 };
@@ -59,10 +61,26 @@ function Tabs({ favoriteItems, setFavoriteItems }) {
         component={About}
       ></Tab.Screen>
       <Tab.Screen
-        name="Category"
-        options={{ tabBarLabel: "Categoria" }}
-        component={Category}
+        name="Options"
+        options={{ tabBarLabel: "Minhas receitas" }}
+        component={Options}
       ></Tab.Screen>
+      <Tab.Screen
+        name="Register"
+        component={Register}
+        options={{
+          tabBarLabel: "Cadastrar Receita",
+          tabBarButton: (props) => <></>,
+        }}
+      />
+      <Tab.Screen
+        name="Edit"
+        component={Edit}
+        options={{
+          tabBarLabel: "Editar Receita",
+          tabBarButton: (props) => <></>,
+        }}
+      />
     </Tab.Navigator>
   );
 }
