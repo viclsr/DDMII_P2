@@ -44,7 +44,6 @@ const Register = () => {
     const hours = Math.floor(prepareTime / 60);
     const minutes = Math.floor(prepareTime % 60);
 
-    // Formata as hours e minutes como uma string
     let prepareTimeConverted = ``;
 
     if (hours > 0) {
@@ -52,11 +51,11 @@ const Register = () => {
     }
 
     if (minutes > 0) {
-      prepareTimeConverted += `${minutes} minuto(s)`;
+      prepareTimeConverted += `${minutes} minutos`;
     }
 
     if (hours > 0 && minutes > 0) {
-      prepareTimeConverted += `${hours} hora(s) e ${minutes} minuto(s)`;
+      prepareTimeConverted = `${hours} hora(s) e ${minutes} minuto(s)`;
     }
 
     try {
@@ -70,12 +69,16 @@ const Register = () => {
         id: 1,
       };
 
-      console.log("response: ", recipe);
-
       const response = await api.post("/recipes", recipe);
 
       if (response.status === 201) {
         Alert.alert("Receita cadastrada com sucesso!");
+        setRecipeName("");
+        setIngredients("");
+        setInstructions("");
+        setPrepareTime(0);
+        setCategory("Selecione");
+        setImage(null);
       } else {
         Alert.alert("Erro ao cadastrar receita. Por favor, tente novamente.");
       }
@@ -206,6 +209,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#222",
     fontSize: 18,
+    padding: 10,
   },
   inputAbout: {
     height: 70,
@@ -213,6 +217,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#222",
     fontSize: 18,
+    padding: 10,
   },
   label: {
     fontSize: 16,
