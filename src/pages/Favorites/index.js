@@ -1,17 +1,24 @@
-import React, { useState, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { styles } from "./styles";
 
-import { View, ScrollView, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import {
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CardComponent from '../../components/CardComponent';
+import CardComponent from "../../components/CardComponent";
 
 const Favorites = ({ goToRecipe }) => {
   const [favoriteItems, setFavoriteItems] = useState([]);
 
   const removeFavoriteRecipes = async (recipe) => {
     try {
-      const storedRecipes = await AsyncStorage.getItem('@favorite_recipes');
+      const storedRecipes = await AsyncStorage.getItem("@favorite_recipes");
       let updatedFavorites = storedRecipes ? JSON.parse(storedRecipes) : [];
 
       // removendo a receita do array
@@ -19,28 +26,31 @@ const Favorites = ({ goToRecipe }) => {
         (item) => item.name !== recipe.name
       );
 
-      await AsyncStorage.setItem('@favorite_recipes', JSON.stringify(updatedFavorites));
+      await AsyncStorage.setItem(
+        "@favorite_recipes",
+        JSON.stringify(updatedFavorites)
+      );
       setFavoriteItems(updatedFavorites);
     } catch (error) {
-      console.error('Erro ao remover dos favoritos:', error);
+      console.error("Erro ao remover dos favoritos:", error);
     }
   };
-  
+
   useFocusEffect(
     useCallback(() => {
       const loadRecipes = async () => {
         try {
-          const storedRecipes = await AsyncStorage.getItem('@favorite_recipes');
+          const storedRecipes = await AsyncStorage.getItem("@favorite_recipes");
           if (storedRecipes) {
             setFavoriteItems(JSON.parse(storedRecipes));
           }
         } catch (error) {
-          console.error('Error loading recipes:', error);
+          console.error("Error loading recipes:", error);
         }
       };
 
       loadRecipes();
-    }, []),
+    }, [])
   );
 
   return (
@@ -64,16 +74,5 @@ const Favorites = ({ goToRecipe }) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  notFoundContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});
 
 export default Favorites;
